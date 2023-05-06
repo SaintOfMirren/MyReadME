@@ -53,10 +53,76 @@ const questions = [
 ];
 
 // TODO: Create a function to write README file
-function writeToFile(fileName, data) {}
+function writeToFile(fileName, data) {
+    fs.writeFile(fileName, data, (err) =>
+    err ? console.error(err) : console.log("README file generated!")
+  );
+}
 
 // TODO: Create a function to initialize app
-function init() {}
+function init() {
+    inquirer.prompt(questions).then((answers) => {
+        const {
+          title,
+          description,
+          installation,
+          usage,
+          contributing,
+          tests,
+          license,
+          github,
+          email,
+        } = answers;
+    
+        // Generate README content
+        const content = `
+    # ${title}
+    
+    ## Description
+    
+    ${description}
+    
+    ## Table of Contents
+    
+    - [Installation](#installation)
+    - [Usage](#usage)
+    - [Contributing](#contributing)
+    - [Tests](#tests)
+    - [License](#license)
+    - [Questions](#questions)
+    
+    ## Installation
+    
+    ${installation}
+    
+    ## Usage
+    
+    ${usage}
+    
+    ## Contributing
+    
+    ${contributing}
+    
+    ## Tests
+    
+    ${tests}
+    
+    ## License
+    
+    This project is licensed under the ${license} license.
+    
+    ## Questions
+    
+    If you have any questions, please feel free to contact me:
+    
+    - GitHub: [${github}](https://github.com/${github})
+    - Email: [${email}](mailto:${email})
+    `;
+    
+        // Write README file
+        writeToFile("README.md", content);
+      });
+}
 
 // Function call to initialize app
 init();
